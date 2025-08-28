@@ -235,7 +235,7 @@ const Header = () => {
               onClick={() => scrollToTop()}
             >
               <img 
-                src="/src/assets/jrb-logo.svg" 
+                src="/jrb-logo.svg" 
                 alt="JRB Logo" 
                 className="h-16 w-auto object-contain"
               />
