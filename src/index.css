@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* JRB Gold Design System - Premium Jewelry Brand */
+
+@layer base {
+  :root {
+    /* Brand Colors - HSL Values */
+    --gold: 44 72% 52%;          /* Royal Gold #D4AF37 */
+    --gold-dark: 41 64% 43%;     /* Gold Dark #B38F2B */
+    --charcoal: 0 0% 11%;        /* Deep Charcoal #1C1C1C */
+    --ink: 218 18% 9%;           /* Rich Ink #15171B */
+    --ivory: 60 20% 98%;         /* Ivory #FAFAF7 */
+    --slate: 220 14% 66%;        /* Slate Gray #9CA3AF */
+    --maroon: 0 58% 26%;         /* Maroon Accent #6C1E1E */
+
+    /* Semantic Token Mapping */
+    --background: var(--ivory);
+    --foreground: var(--charcoal);
+
+    --card: var(--ivory);
+    --card-foreground: var(--charcoal);
+
+    --popover: var(--ivory);
+    --popover-foreground: var(--charcoal);
+
+    --primary: var(--gold);
+    --primary-foreground: var(--charcoal);
+
+    --secondary: var(--slate);
+    --secondary-foreground: var(--ivory);
+
+    --muted: 220 14% 96%;
+    --muted-foreground: var(--slate);
+
+    --accent: var(--gold);
+    --accent-foreground: var(--charcoal);
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: var(--ivory);
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: var(--gold);
+
+    --radius: 0.5rem;
+
+    /* Premium Design Tokens */
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-dark)) 100%);
+    --gradient-surface: linear-gradient(135deg, hsl(var(--ivory)) 0%, hsl(220 14% 94%) 100%);
+    --shadow-luxury: 0 8px 30px hsl(var(--gold) / 0.12);
+    --shadow-elevated: 0 20px 50px hsl(var(--charcoal) / 0.15);
+    
+    /* Animations */
+    --transition-smooth: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-luxury: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .dark {
+    --background: var(--charcoal);
+    --foreground: var(--ivory);
+
+    --card: var(--ink);
+    --card-foreground: var(--ivory);
+
+    --popover: var(--ink);
+    --popover-foreground: var(--ivory);
+
+    --primary: var(--gold);
+    --primary-foreground: var(--charcoal);
+
+    --secondary: var(--slate);
+    --secondary-foreground: var(--ivory);
+
+    --muted: 218 18% 15%;
+    --muted-foreground: var(--slate);
+
+    --accent: var(--gold);
+    --accent-foreground: var(--charcoal);
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: var(--ivory);
+
+    --border: 218 18% 15%;
+    --input: 218 18% 15%;
+    --ring: var(--gold);
+
+    --gradient-surface: linear-gradient(135deg, hsl(var(--ink)) 0%, hsl(218 18% 12%) 100%);
+    --shadow-luxury: 0 8px 30px hsl(var(--gold) / 0.2);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+    letter-spacing: -0.01em;
+  }
+
+  h1 {
+    @apply text-5xl font-bold leading-none tracking-tight;
+  }
+
+  h2 {
+    @apply text-4xl font-semibold leading-tight;
+  }
+
+  h3 {
+    @apply text-2xl font-medium leading-snug;
+  }
+}
+
+@layer components {
+  /* Premium Button Variants */
+  .btn-hero {
+    @apply bg-gradient-to-r from-gold to-gold-dark text-charcoal font-semibold px-8 py-4 rounded-lg;
+    @apply hover:shadow-luxury transition-all duration-300;
+    @apply focus:ring-2 focus:ring-gold/40 focus:outline-none;
+  }
+
+  .btn-outline-gold {
+    @apply border-2 border-gold text-gold bg-transparent px-6 py-3 rounded-lg font-medium;
+    @apply hover:bg-gold/10 transition-all duration-200;
+    @apply focus:ring-2 focus:ring-gold/40 focus:outline-none;
+  }
+
+  /* Luxury Card Styles */
+  .card-luxury {
+    @apply bg-card border border-border rounded-lg overflow-hidden;
+    @apply hover:shadow-luxury transition-all duration-300;
+    background: var(--gradient-surface);
+  }
+
+  .card-dark {
+    @apply bg-ink text-ivory border-border/20 rounded-lg overflow-hidden;
+    @apply hover:shadow-elevated transition-all duration-300;
+  }
+
+  /* Gold Accent Elements */
+  .divider-gold {
+    @apply h-px bg-gradient-to-r from-transparent via-gold to-transparent;
+  }
+
+  .badge-premium {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+    @apply bg-gold/10 text-gold border border-gold/20;
+  }
+
+  /* Typography Hierarchy */
+  .text-hero {
+    @apply text-6xl font-bold leading-none tracking-tight;
+  }
+
+  .text-display {
+    @apply text-4xl font-semibold leading-tight;
+  }
+
+  .text-title {
+    @apply text-2xl font-medium leading-snug;
+  }
+}
