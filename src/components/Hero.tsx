@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useState, useEffect } from "react";
+import { navigateToPage } from "@/utils/navigation";
 import heroImage from "@/assets/hero-jewelry.jpg";
 import craftsmanshipImage from "@/assets/craftsmanship.jpg";
 
@@ -89,10 +90,26 @@ const Hero = () => {
                         {slide.description}
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4">
-                        <Button size="lg" variant="hero">
+                        <Button 
+                          size="lg" 
+                          variant="hero"
+                          onClick={() => navigateToPage('/shop')}
+                        >
                           {slide.primaryCTA}
                         </Button>
-                        <Button size="lg" variant="outline-gold">
+                        <Button 
+                          size="lg" 
+                          variant="outline-gold"
+                          onClick={() => {
+                            if (slide.secondaryCTA === "Exchange Old Jewelry") {
+                              navigateToPage('/services');
+                            } else if (slide.secondaryCTA === "Learn More") {
+                              navigateToPage('/about');
+                            } else {
+                              navigateToPage('/shop');
+                            }
+                          }}
+                        >
                           {slide.secondaryCTA}
                         </Button>
                       </div>
