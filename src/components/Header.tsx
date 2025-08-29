@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
-import { Search, Menu, User, Heart, ShoppingCart, Clock, Eye, Package, LogOut } from "lucide-react";
+import { Search, Menu, User, Heart, ShoppingCart, Clock, Eye, Package, LogOut, Sparkles, TrendingUp, Tag, Star } from "lucide-react";
 import { scrollToTop } from "@/utils/scrollToTop";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,8 +26,9 @@ const Header = () => {
 
   // Define types for search suggestions
   interface SearchSuggestion {
-    type: 'history' | 'product';
+    type: 'history' | 'product' | 'category';
     term: string;
+    icon?: React.ComponentType<any>;
     product?: {
       id: string;
       name: string;
@@ -56,8 +57,8 @@ const Header = () => {
   };
 
   // Handle search functionality
-  const handleSearch = (query: string, productId?: string) => {
-    if (query.trim() && !searchHistory.includes(query.trim())) {
+  const handleSearch = (query: string, productId?: string, suggestionType?: string) => {
+    if (query.trim() && !searchHistory.includes(query.trim()) && suggestionType !== 'category') {
       const newHistory = [query.trim(), ...searchHistory.slice(0, 9)]; // Keep last 10 searches
       saveSearchHistory(newHistory);
     }
@@ -66,8 +67,29 @@ const Header = () => {
       // Navigate to specific product page
       navigate(`/product/${productId}`);
     } else if (query.trim()) {
-      // Navigate to shop with search query
-      navigate(`/shop?search=${encodeURIComponent(query.trim())}`);
+      // Handle category suggestions with specific filters
+      let searchUrl = '/shop';
+      if (suggestionType === 'category') {
+        switch (query) {
+          case 'New Products':
+            searchUrl = '/shop?filter=new';
+            break;
+          case 'Trending Products':
+            searchUrl = '/shop?filter=trending';
+            break;
+          case 'Discount Products':
+            searchUrl = '/shop?filter=discount';
+            break;
+          case 'Featured Products':
+            searchUrl = '/shop?filter=featured';
+            break;
+          default:
+            searchUrl = `/shop?search=${encodeURIComponent(query.trim())}`;
+        }
+      } else {
+        searchUrl = `/shop?search=${encodeURIComponent(query.trim())}`;
+      }
+      navigate(searchUrl);
     }
     
     setSearchQuery('');
@@ -78,16 +100,49 @@ const Header = () => {
   const handleSearchChange = (value: string) => {
     try {
       setSearchQuery(value);
-      setShowSearchResults(value.length > 0 || (value.length === 0 && searchHistory.length > 0));
+      setShowSearchResults(true); // Always show suggestions when focused
     } catch (error) {
       console.error('Error in handleSearchChange:', error);
     }
   };
 
+  // Handle search input focus
+  const handleSearchFocus = () => {
+    setShowSearchResults(true);
+  };
+
+  // Get default category suggestions
+  const getDefaultSuggestions = (): SearchSuggestion[] => {
+    return [
+      {
+        type: 'category' as const,
+        term: 'New Products',
+        icon: Sparkles
+      },
+      {
+        type: 'category' as const,
+        term: 'Trending Products',
+        icon: TrendingUp
+      },
+      {
+        type: 'category' as const,
+        term: 'Discount Products',
+        icon: Tag
+      },
+      {
+        type: 'category' as const,
+        term: 'Featured Products',
+        icon: Star
+      }
+    ];
+  };
+
   // Get filtered products for search suggestions (same logic as Shop page)
   const getSearchSuggestions = (): SearchSuggestion[] => {
     if (!searchQuery.trim()) {
-      return searchHistory.map(term => ({ type: 'history' as const, term }));
+      const defaultSuggestions = getDefaultSuggestions();
+      const historySuggestions = searchHistory.slice(0, 3).map(term => ({ type: 'history' as const, term, icon: Clock }));
+      return [...defaultSuggestions, ...historySuggestions];
     }
     
     try {
@@ -270,7 +325,7 @@ const Header = () => {
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
-                onFocus={() => setShowSearchResults(true)}
+                onFocus={handleSearchFocus}
                 onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
               />
             </div>
@@ -300,6 +355,14 @@ const Header = () => {
                               >
                                 <Clock className="h-4 w-4 text-gray-400" />
                                 <span className="text-sm">{suggestion.term}</span>
+                              </div>
+                            ) : suggestion.type === 'category' ? (
+                              <div 
+                                className="flex items-center space-x-2 cursor-pointer"
+                                onClick={() => handleSearch(suggestion.term, undefined, 'category')}
+                              >
+                                {suggestion.icon && <suggestion.icon className="h-4 w-4 text-gold" />}
+                                <span className="text-sm font-medium">{suggestion.term}</span>
                               </div>
                             ) : (
                               <div className="flex items-center space-x-3">
@@ -493,6 +556,8 @@ const Header = () => {
                         value={searchQuery}
                         onChange={(e) => handleSearchChange(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
+                        onFocus={handleSearchFocus}
+                        onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
                       />
                     </div>
                     
@@ -524,6 +589,17 @@ const Header = () => {
                                       >
                                         <Clock className="h-4 w-4 text-gray-400" />
                                         <span className="text-sm">{suggestion.term}</span>
+                                      </div>
+                                    ) : suggestion.type === 'category' ? (
+                                      <div 
+                                        className="flex items-center space-x-2 cursor-pointer"
+                                        onClick={() => {
+                                          handleSearch(suggestion.term, undefined, 'category');
+                                          setIsSearchOpen(false);
+                                        }}
+                                      >
+                                        {suggestion.icon && <suggestion.icon className="h-4 w-4 text-gold" />}
+                                        <span className="text-sm font-medium">{suggestion.term}</span>
                                       </div>
                                     ) : (
                                       <div className="flex items-center space-x-3">
