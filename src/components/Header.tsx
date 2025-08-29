@@ -326,7 +326,7 @@ const Header = () => {
                 onChange={(e) => handleSearchChange(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
                 onFocus={handleSearchFocus}
-                onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
+                onBlur={() => setTimeout(() => setShowSearchResults(false), 300)}
               />
             </div>
             
@@ -365,52 +365,25 @@ const Header = () => {
                                 <span className="text-sm font-medium">{suggestion.term}</span>
                               </div>
                             ) : (
-                              <div className="flex items-center space-x-3">
-                                <div 
-                                  className="flex items-center space-x-3 flex-1 cursor-pointer"
-                                  onClick={() => {
-                                    console.log('Product clicked, navigating to:', `/product/${suggestion.product?.id}`);
-                                    navigate(`/product/${suggestion.product?.id}`);
-                                    setSearchQuery('');
-                                    setShowSearchResults(false);
-                                  }}
-                                >
-                                  <img 
-                                    src={suggestion.product?.image} 
-                                    alt={suggestion.product?.name}
-                                    className="w-10 h-10 object-cover rounded"
-                                  />
-                                  <div className="flex-1">
-                                    <div className="text-sm font-medium text-left">{suggestion.product?.name}</div>
-                                    <div className="text-xs text-gray-500 text-left">{suggestion.product?.category}</div>
-                                    <div className="text-xs text-gold font-semibold text-left">₹{suggestion.product?.basePrice?.toLocaleString()}</div>
-                                  </div>
-                                </div>
-                                <div
-                                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full cursor-pointer transition-colors"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    console.log('Double tap icon clicked for product ID:', suggestion.product?.id);
-                                    console.log('Navigating to:', `/product/${suggestion.product?.id}`);
-                                    // Force page navigation
-                                    window.open(`/product/${suggestion.product?.id}`, '_self');
-                                  }}
-                                  title="Double tap to view product"
-                                >
-                                  <svg 
-                                    className="w-4 h-4 text-gray-400" 
-                                    fill="none" 
-                                    stroke="currentColor" 
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path 
-                                      strokeLinecap="round" 
-                                      strokeLinejoin="round" 
-                                      strokeWidth={2} 
-                                      d="M7 11.5l5-5 5 5M7 17.5l5-5 5 5" 
-                                    />
-                                  </svg>
+                              <div 
+                                className="flex items-center space-x-3 w-full cursor-pointer"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  console.log('Product clicked, navigating to:', `/product/${suggestion.product?.id}`);
+                                  navigate(`/product/${suggestion.product?.id}`);
+                                  setSearchQuery('');
+                                  setShowSearchResults(false);
+                                }}
+                              >
+                                <img 
+                                  src={suggestion.product?.image} 
+                                  alt={suggestion.product?.name}
+                                  className="w-10 h-10 object-cover rounded"
+                                />
+                                <div className="flex-1">
+                                  <div className="text-sm font-medium text-left">{suggestion.product?.name}</div>
+                                  <div className="text-xs text-gray-500 text-left">{suggestion.product?.category}</div>
+                                  <div className="text-xs text-gold font-semibold text-left">₹{suggestion.product?.basePrice?.toLocaleString()}</div>
                                 </div>
                               </div>
                             )}
@@ -557,7 +530,7 @@ const Header = () => {
                         onChange={(e) => handleSearchChange(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
                         onFocus={handleSearchFocus}
-                        onBlur={() => setTimeout(() => setShowSearchResults(false), 200)}
+                        onBlur={() => setTimeout(() => setShowSearchResults(false), 300)}
                       />
                     </div>
                     
@@ -602,53 +575,26 @@ const Header = () => {
                                         <span className="text-sm font-medium">{suggestion.term}</span>
                                       </div>
                                     ) : (
-                                      <div className="flex items-center space-x-3">
-                                        <div 
-                                          className="flex items-center space-x-3 flex-1 cursor-pointer"
-                                          onClick={() => {
-                                            console.log('Mobile Product clicked, navigating to:', `/product/${suggestion.product?.id}`);
-                                            navigate(`/product/${suggestion.product?.id}`);
-                                            setSearchQuery('');
-                                            setShowSearchResults(false);
-                                            setIsSearchOpen(false);
-                                          }}
-                                        >
-                                          <img 
-                                            src={suggestion.product?.image} 
-                                            alt={suggestion.product?.name}
-                                            className="w-10 h-10 object-cover rounded"
-                                          />
-                                          <div className="flex-1">
-                                            <div className="text-sm font-medium text-left">{suggestion.product?.name}</div>
-                                            <div className="text-xs text-gray-500 text-left">{suggestion.product?.category}</div>
-                                            <div className="text-xs text-gold font-semibold text-left">₹{suggestion.product?.basePrice?.toLocaleString()}</div>
-                                          </div>
-                                        </div>
-                                        <div
-                                          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full cursor-pointer transition-colors"
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            console.log('Mobile Double tap icon clicked for product ID:', suggestion.product?.id);
-                                            console.log('Mobile Navigating to:', `/product/${suggestion.product?.id}`);
-                                            // Force page navigation
-                                            window.open(`/product/${suggestion.product?.id}`, '_self');
-                                          }}
-                                          title="Double tap to view product"
-                                        >
-                                          <svg 
-                                            className="h-4 w-4 text-gray-600 dark:text-gray-300" 
-                                            fill="none" 
-                                            stroke="currentColor" 
-                                            viewBox="0 0 24 24"
-                                          >
-                                            <path 
-                                              strokeLinecap="round" 
-                                              strokeLinejoin="round" 
-                                              strokeWidth={2} 
-                                              d="M7 11.5l5-5 5 5M7 17.5l5-5 5 5" 
-                                            />
-                                          </svg>
+                                      <div 
+                                        className="flex items-center space-x-3 w-full cursor-pointer"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          console.log('Mobile Product clicked, navigating to:', `/product/${suggestion.product?.id}`);
+                                          navigate(`/product/${suggestion.product?.id}`);
+                                          setSearchQuery('');
+                                          setShowSearchResults(false);
+                                          setIsSearchOpen(false);
+                                        }}
+                                      >
+                                        <img 
+                                          src={suggestion.product?.image} 
+                                          alt={suggestion.product?.name}
+                                          className="w-10 h-10 object-cover rounded"
+                                        />
+                                        <div className="flex-1">
+                                          <div className="text-sm font-medium text-left">{suggestion.product?.name}</div>
+                                          <div className="text-xs text-gray-500 text-left">{suggestion.product?.category}</div>
+                                          <div className="text-xs text-gold font-semibold text-left">₹{suggestion.product?.basePrice?.toLocaleString()}</div>
                                         </div>
                                       </div>
                                     )}
